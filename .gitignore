@@ -1,0 +1,61 @@
+# Python and tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Credentials and local configuration
+.env
+.env.*
+credentials.json
+secrets.json
+
+# Market data and generated metadata, except documentation and empty manifest
+data/raw/
+data/processed/
+data/warehouse/
+data/catalog/*.sqlite*
+data/catalog/*.jsonl
+data/manifests/*
+!data/manifests/datasets.yaml
+!data/manifests/publication_policy.yaml
+
+# Models, outputs, and logs
+checkpoints/
+checkpoints_*/
+results/
+logs/
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.parquet
+*.csv
+*.log
+
+# Paper and local working artifacts
+paper writing/
+paper_data/
+paper_figures/
+paper_tables/
+.tmp/
+tmp/
+temp/
+*.zip
+*.pdf
+
+# IDE and OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
