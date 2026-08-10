@@ -6,9 +6,10 @@ in legal coordinates, so the decoder produces ordered price ladders with
 positive spreads and non-negative depths by construction.
 
 The repository provides the LegalLOB transform, diffusion model, matched-coordinate
-and PAVA baselines, Public Nasdaq ITCH preprocessing, training, one-shot evaluation,
-and recursive rollout evaluation. Generated snapshots can be consumed directly by
-subsequent forecasting, risk, and control modules.
+and PAVA baselines, Public Nasdaq ITCH and Databento snapshot preprocessing,
+training, one-shot evaluation, recursive rollout evaluation, downstream-consumer
+audits, and the fixed multi-asset event-time study. Generated snapshots can be
+consumed directly by subsequent forecasting, risk, and control modules.
 
 ## How LegalLOB works
 
@@ -42,7 +43,8 @@ genlob/
   models/                    diffusion backbone, SDE, and sampling code
   utils/legal_lob.py         LegalLOB and matched-coordinate transforms
   utils/physics.py           validity checks and PAVA projection
-  data/                      dataset loaders and normalization
+  data/nasdaq.py             Public ITCH snapshot loader
+  data/normalize.py          train-split normalization
   eval/metrics.py            evaluation metrics
 scripts/
   train_v2.py                model training
@@ -57,8 +59,9 @@ tests/                        unit and workflow tests
 
 ## Prepare the data
 
-The experiments use six Public Nasdaq TotalView-ITCH sample days. The download
-and preprocessing utilities build the required datasets locally under `data/`.
+The multi-asset experiments use six Public Nasdaq TotalView-ITCH sample days.
+The download and preprocessing utilities build the required datasets locally
+under `data/`.
 
 ```bash
 bash scripts/download_nasdaq_2019_samples.sh

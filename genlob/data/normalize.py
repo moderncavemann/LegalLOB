@@ -187,7 +187,7 @@ def denormalize_lob(data_norm: np.ndarray, stats: NormStats,
 
 def normalize_lob_windowed(data: np.ndarray, stats: NormStats = None) -> tuple:
     """
-    Normalize with per-window mid-price (for pre-windowed data like Binance).
+    Normalize pre-windowed data with a per-window mid-price.
 
     Each window uses its first timestep's mid-price as reference.
 

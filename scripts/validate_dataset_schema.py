@@ -278,7 +278,7 @@ def validate_snapshot_dataset(
     if not dataset_cfg.get("has_true_timestamps", False):
         warnings.append("timestamps are not true exchange timestamps")
     if not dataset_cfg.get("has_message_data", False):
-        warnings.append("raw LOBSTER message/orderbook data is missing; message-level baselines are blocked")
+        warnings.append("message-level order events are unavailable; snapshot-level evaluation applies")
     if dataset_cfg.get("action_label_status") != "message_level_aggressor_side":
         warnings.append("actions are not message-level aggressor-side labels; action causality tests are diagnostic only")
 

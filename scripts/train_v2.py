@@ -422,7 +422,7 @@ def train_epoch(model, ema_model, train_loader, sde, loss_fn, optimizer, schedul
     for batch_idx, batch in enumerate(train_loader):
         if args.max_train_batches is not None and batch_idx >= args.max_train_batches:
             break
-        # Binance returns (history, future, action); others return (history, future)
+        # Loaders may return an optional diagnostic action channel.
         if len(batch) == 3:
             history, future, action = batch
             action = action.to(device)

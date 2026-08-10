@@ -1,9 +1,9 @@
-from .genlob_diff import GenLOBDiffusion, GenLOBConfig, DiffusionScheduler
-from .deeplob import DeepLOBStyleClassifier
+from .genlob_v2 import GenLOBv2, GenLOBv2Config
+from .sde import VESDE, VPSDE
 
 __all__ = [
-    "DeepLOBStyleClassifier",
-    "GenLOBDiffusion",
-    "GenLOBConfig",
-    "DiffusionScheduler",
+    "GenLOBv2",
+    "GenLOBv2Config",
+    "VESDE",
+    "VPSDE",
 ]

@@ -583,8 +583,8 @@ def finalize_dataset(
         "processed_event_l3_available": False,
         "action_label_status": "itch_event_proxy_diagnostic_not_causal",
         "normalization": normalization,
-        "limitations": [
-            "Public sample days are non-consecutive and are not LOBSTER.",
+        "scope_notes": [
+            "Public sample days are non-consecutive.",
             "Snapshot action proxies do not support causal Buy/Sell claims.",
             "Message replay and queue/fill evaluation require an event_l3 export.",
         ],
@@ -615,8 +615,8 @@ def finalize_dataset(
     (output_dir / "DATASET_CARD.md").write_text(
         f"# {dataset_id}\n\n"
         f"Public NASDAQ ITCH RTH `{mode}` snapshot panel for `{symbol}`.\n\n"
-        "The source dates are public non-consecutive sample days. This is not LOBSTER and "
-        "does not support causal action, queue, or fill claims.\n"
+        "The source dates are public non-consecutive sample days. The snapshot panel "
+        "supports structural generation and consumer-acceptance evaluation.\n"
     )
     return {"dataset_id": dataset_id, "output_dir": str(output_dir), "metadata": metadata}
 
@@ -654,7 +654,7 @@ def _update_manifest(path: Path, datasets: Iterable[dict[str, Any]]) -> None:
             "has_message_data": False,
             "has_raw_itch_source": True,
             "action_label_status": metadata["action_label_status"],
-            "limitations": metadata["limitations"],
+            "scope_notes": metadata["scope_notes"],
         }
     path.write_text(yaml.safe_dump(payload, sort_keys=False))
 

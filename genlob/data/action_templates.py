@@ -2,8 +2,7 @@
 
 These helpers are not evidence of real Buy/Sell market impact. The current
 snapshot datasets use heuristic/proxy action channels; formal action causality
-requires message-level aggressor-side labels from Databento MBO, ITCH, or
-LOBSTER event data.
+requires validated message-level aggressor-side labels.
 """
 
 from __future__ import annotations

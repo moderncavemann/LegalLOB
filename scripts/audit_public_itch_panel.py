@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit the canonical public ITCH panel and optionally export DiffLOB views."""
+"""Audit the canonical Public ITCH snapshot panel."""
 
 from __future__ import annotations
 
@@ -33,7 +33,6 @@ def main() -> int:
     parser.add_argument("--output", default="PUBLIC_ITCH_PANEL_AUDIT.json")
     parser.add_argument("--reconstruction-batches", type=int, default=2)
     parser.add_argument("--skip-reconstruction", action="store_true")
-    parser.add_argument("--export-difflob", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -94,19 +93,6 @@ def main() -> int:
                     ],
                     args.dry_run,
                 )
-            if args.export_difflob and mode == "1s":
-                _run(
-                    [
-                        sys.executable,
-                        "scripts/export_difflob_dataset.py",
-                        "--dataset",
-                        dataset_id,
-                        "--data-dir",
-                        args.data_dir,
-                    ],
-                    args.dry_run,
-                )
-
     payload = {
         "panel": args.prefix,
         "symbols": symbols,
@@ -117,8 +103,8 @@ def main() -> int:
         "failures": failures,
         "datasets": rows,
         "scope": (
-            "six non-consecutive public NASDAQ sample days; snapshot-level continuous "
-            "legality and DiffLOB-compatible 1 Hz data, not LOBSTER or message-level replay"
+            "six non-consecutive Public Nasdaq sample days with event-time and "
+            "one-second Level-2 snapshot validation"
         ),
     }
     if not args.dry_run:

@@ -1,107 +1,46 @@
 schema_version: 1
-as_of: 2026-07-14
+as_of: 2026-08-10
 
 default_release_policy:
-  raw_market_data: do_not_publish
-  derived_market_rows: do_not_publish_without_explicit_redistribution_rights
+  raw_market_data: local_only
+  derived_market_rows: local_only_unless_redistribution_is_authorized
   metadata_and_checksums: publish
-  adapters_and_validation_code: publish
-  synthetic_schema_examples: publish
+  preprocessing_and_validation_code: publish
 
 sources:
-  retained_intc:
-    provider: retained project artifact
-    market: NASDAQ equities
-    granularity: normalized snapshot_l2
-    official_url: null
-    raw_release: prohibited_missing_source_provenance
-    derived_release: do_not_publish
-    metadata_release: publish
-    reviewer_note: Real timestamps, day boundaries, and independently auditable normalization provenance are unavailable.
-
   nasdaq_public_itch:
     provider: Nasdaq
     market: XNAS
     granularity: TotalView-ITCH 5.0 order-level source
     official_url: https://emi.nasdaq.com/ITCH/
     specification_url: https://www.nasdaqtrader.com/content/technicalsupport/specifications/dataproducts/NQTVITCHSpecification_5.0.pdf
-    raw_release: do_not_republish
-    derived_release: metadata_only_unless_nasdaq_confirms_redistribution
+    raw_release: local_only
+    derived_release: metadata_only_unless_redistribution_is_authorized
     metadata_release: publish
-    reviewer_note: Public sample access does not by itself establish redistribution rights; publish download/build scripts, hashes, statistics, and synthetic examples only.
 
   databento_xnas:
     provider: Databento
     market: XNAS.ITCH
-    granularity: MBP-10 and MBO
+    granularity: MBP-10 snapshots
     official_url: https://databento.com/docs/schemas-and-data-formats/whats-a-schema
     licensing_url: https://databento.com/pricing/
-    raw_release: do_not_republish
-    derived_release: metadata_only_pending_dataset_specific_venue_rights
+    raw_release: local_only
+    derived_release: metadata_only_unless_redistribution_is_authorized
     metadata_release: publish
-    reviewer_note: Databento passes through original publisher licensing restrictions; local access is not evidence of external redistribution rights.
 
-  fi2010:
-    provider: FI-2010 authors via public mirrors
-    market: NASDAQ Nordic
-    granularity: normalized top-10 benchmark features
-    official_url: https://arxiv.org/abs/1705.03233
-    raw_release: link_upstream_do_not_duplicate
-    derived_release: do_not_publish_full_arrays
-    metadata_release: publish
-    reviewer_note: Prediction benchmark only; not replayable order flow and not evidence for execution realism.
-
-  binance_public:
-    provider: Binance public data
-    market: Binance spot
-    granularity: aggregate trades and 1-minute bars
-    official_url: https://data.binance.vision/
-    raw_release: link_upstream_do_not_duplicate
-    derived_release: metadata_only
-    metadata_release: publish
-    reviewer_note: Engineering/backtester sandbox only; it is not historical L2 order-book replay.
-
-  kaggle_crypto:
-    provider: Kaggle dataset mirror
-    market: crypto
-    granularity: feature tables
-    official_url: https://www.kaggle.com/datasets/martinsn/high-frequency-crypto-limit-order-book-data
-    raw_release: do_not_republish
-    derived_release: metadata_only
-    metadata_release: publish
-    reviewer_note: Keep outside the equities LegalLOB benchmark and honor the upstream Kaggle license.
-
-  lobster:
-    provider: LOBSTER
-    market: NASDAQ equities
-    granularity: aligned message and orderbook CSV
-    official_url: https://data.lobsterdata.com/info/DataStructure.php
-    raw_release: do_not_republish
-    derived_release: metadata_only_unless_license_allows
-    metadata_release: publish
-    reviewer_note: No licensed local files are currently available.
-
-datasets:
-  INTC_9day:
-    source_id: retained_intc
-    publication_scope: metadata_only
-    reviewer_readiness: internal_method_validation_only
-  GOOG_public_01302019:
+dataset_families:
+  public_itch_multi_asset:
     source_id: nasdaq_public_itch
-    publication_scope: metadata_checksums_and_synthetic_examples_only
-    reviewer_readiness: single_day_external_snapshot_validation
-  GOOG_databento_20190130_mbp10:
+    symbols: [AAPL, AMZN, GOOG, INTC]
+    sampling: [event, 1s]
+    dates: [2019-01-30, 2019-03-27, 2019-07-30, 2019-08-30, 2019-10-30, 2019-12-30]
+    publication_scope: code_metadata_and_checksums
+
+  goog_databento_mbp10:
     source_id: databento_xnas
-    publication_scope: metadata_checksums_and_synthetic_examples_only
-    reviewer_readiness: single_day_external_snapshot_validation
-  GOOG_databento_20190130_mbp10_rth_v2:
-    source_id: databento_xnas
-    publication_scope: metadata_checksums_and_synthetic_examples_only
-    reviewer_readiness: single_day_rth_external_snapshot_validation
-  FI2010_noauction_zscore_full:
-    source_id: fi2010
-    publication_scope: adapter_metadata_and_metrics_only
-    reviewer_readiness: public_prediction_benchmark
+    symbols: [GOOG]
+    sampling: event
+    publication_scope: code_metadata_and_checksums
 
 nasdaq_download_targets:
   - name: 01302019.NASDAQ_ITCH50.gz
@@ -122,75 +61,3 @@ nasdaq_download_targets:
   - name: 12302019.NASDAQ_ITCH50.gz
     trading_date: 2019-12-30
     expected_bytes: 3524013057
-
-benchmark_protocols:
-  - protocol_id: difflob_2026
-    task: regime-conditioned snapshot trajectory generation
-    source: LOBSTER
-    symbols: [AMZN, AAPL, GOOG]
-    sampling: 1_second
-    levels: 10
-    split: 16_train_days_1_validation_day_2_test_days
-    history: 32
-    horizon: 32
-    metrics: [KS, Wasserstein, KL, JS, return_distribution, spread_distribution, volatility_clustering, volume_correlation]
-    official_url: https://arxiv.org/html/2602.03776
-
-  - protocol_id: painting_market_2025
-    task: snapshot trajectory generation
-    source: LOBSTER
-    symbols: [GOOG, INTC]
-    sampling: L2_orderbook_updates
-    session: regular_trading_hours
-    levels: 10
-    split: 102_train_days_12_validation_days_12_test_days
-    history: 156
-    horizon: 100
-    metrics: [LOB-Bench_L1, Wasserstein, spread, imbalance, volumes, horizon_error_accumulation, sampling_latency]
-    official_url: https://arxiv.org/html/2509.05107
-
-  - protocol_id: lob_bench_2025
-    task: message-by-order generative evaluation
-    source: LOBSTER
-    symbols: [GOOG, INTC]
-    sampling: event
-    levels: 10
-    split: 2022_training_January_2023_test_subsample
-    metrics: [L1, Wasserstein, conditional_distributions, horizon_error, discriminator, impact_response, downstream_F1]
-    baselines: [LOBS5, RWKV4, RWKV6, Coletta_cGAN, Cont_stochastic]
-    official_url: https://arxiv.org/html/2502.09172
-
-  - protocol_id: trades_2025
-    task: message_level_order_generation_and_interactive_simulation
-    source: LOBSTER
-    symbols: [TSLA, INTC]
-    sampling: event
-    levels: 10
-    split: 17_train_days_1_validation_day_2_test_days
-    metrics: [stylized_facts, responsiveness, predictive_score, simulation_behavior]
-    baselines: [market_replay, IABS, conditional_GAN]
-    official_url: https://arxiv.org/html/2502.07071
-
-  - protocol_id: lobdif_2024
-    task: next_event_time_and_type_prediction
-    source: LOBSTER_and_CSMAR
-    symbols: [MSFT, PINGAN, TELECOM]
-    sampling: event
-    levels: null
-    split: within_day_80_train_10_validation_10_test
-    metrics: [event_type_accuracy, log_time_MAE, inference_latency]
-    baselines: [Hawkes, LSTM, CT_LSTM, SAHP, PCT_LSTM]
-    repetitions: 5
-    significance_test: paired_Wilcoxon_signed_rank
-    official_url: https://arxiv.org/html/2412.09631
-
-  - protocol_id: fi2010_prediction
-    task: mid-price movement classification
-    source: FI-2010
-    symbols: five_NASDAQ_Nordic_stocks
-    sampling: event_derived_normalized_features
-    levels: 10
-    split: nine_day_anchored_cross_validation_folds
-    metrics: [accuracy, macro_F1, precision, recall]
-    baselines: [DeepLOB]
-    official_url: https://arxiv.org/abs/1705.03233

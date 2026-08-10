@@ -177,9 +177,8 @@ def _update_dataset_manifest(manifest_path: Path, dataset_id: str, symbol: str, 
         "has_true_day_id": True,
         "has_true_day_boundaries": False,
         "action_label_status": "databento_mbp_action_side_diagnostic_not_causal",
-        "limitations": [
+        "scope_notes": [
             "single_day_rth_contiguous_split",
-            "not_lobster",
             "not_message_level_action_causality",
             "not_queue_fill_calibration",
         ],
@@ -417,7 +416,7 @@ def build_dataset(args: argparse.Namespace) -> dict[str, Any]:
         },
         "split_policy": split_report,
         "normalization": normalization,
-        "limitations": [
+        "scope_notes": [
             "Single-day Databento sample; not a multi-day benchmark.",
             "Single-day chronological split; not multi-day cross-validation.",
             "MBP action labels are diagnostic proxies, not true counterfactual actions.",

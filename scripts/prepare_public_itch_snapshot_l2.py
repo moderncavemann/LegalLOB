@@ -382,8 +382,8 @@ def main() -> int:
         "action_size_scale": parsed["size_scale"],
         "target_locates": parsed["target_locates"],
         "counters": parsed["counters"],
-        "limitations": [
-            "Public ITCH sample file, not a 9-day LOBSTER benchmark.",
+        "scope_notes": [
+            "Public ITCH single-sample-file panel.",
             "Single-file split is contiguous, not true multi-day train/val/test.",
         ],
     }
@@ -392,7 +392,7 @@ def main() -> int:
         f"# {args.dataset_id} Dataset Card\n\n"
         "Status: `prepared_snapshot_l2_from_public_nasdaq_itch`.\n\n"
         f"Source file: `{args.itch_file}`.\n\n"
-        "This is a public Nasdaq ITCH sample-derived snapshot dataset, not a LOBSTER 9-day benchmark.\n"
+        "This is a public Nasdaq ITCH sample-derived Level-2 snapshot dataset.\n"
     )
     (output_dir / "manifest.yaml").write_text(
         f"dataset_id: {args.dataset_id}\nfiles:\n"
