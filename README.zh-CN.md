@@ -8,6 +8,7 @@
 <h1 align="center">LegalLOB: Generating Structurally Valid Level-2 Limit Order Book Trajectories with Diffusion Models</h1>
 
 <p align="center">
+  <a href="paper/LegalLOB_ICAIF2026.pdf"><img src="https://img.shields.io/badge/Paper-PDF-C93C37.svg" alt="Paper PDF"></a>
   <a href="#-引用"><img src="https://img.shields.io/badge/ICAIF-2026-1F4E9E.svg" alt="ICAIF 2026"></a>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?logo=python&amp;logoColor=white" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C.svg?logo=pytorch&amp;logoColor=white" alt="PyTorch 2.x">
@@ -234,7 +235,7 @@ python scripts/evaluate_v2.py --checkpoint checkpoints/goog_1hz_legal_seed0/best
 
 ## 📚 文档
 
-- 论文：*LegalLOB: Generating Structurally Valid Level-2 Limit Order Book Trajectories with Diffusion Models*，ICAIF '26，DOI [10.1145/3858063.3858881](https://doi.org/10.1145/3858063.3858881)（会议论文集出版后生效）。
+- 论文：*LegalLOB: Generating Structurally Valid Level-2 Limit Order Book Trajectories with Diffusion Models*，ICAIF '26，[PDF](paper/LegalLOB_ICAIF2026.pdf)（camera-ready 版本），DOI [10.1145/3858063.3858881](https://doi.org/10.1145/3858063.3858881)（会议论文集出版后生效）。
 - [复现指南](REPRODUCE.md)：四个数据设置、每张表和每张图背后的命令，以及结果写到哪里。
 - [`data/README.md`](data/README.md)：处理后数据集的目录结构。
 

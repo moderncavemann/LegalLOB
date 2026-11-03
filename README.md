@@ -8,6 +8,7 @@
 <h1 align="center">LegalLOB: Generating Structurally Valid Level-2 Limit Order Book Trajectories with Diffusion Models</h1>
 
 <p align="center">
+  <a href="paper/LegalLOB_ICAIF2026.pdf"><img src="https://img.shields.io/badge/Paper-PDF-C93C37.svg" alt="Paper PDF"></a>
   <a href="#-citation"><img src="https://img.shields.io/badge/ICAIF-2026-1F4E9E.svg" alt="ICAIF 2026"></a>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?logo=python&amp;logoColor=white" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C.svg?logo=pytorch&amp;logoColor=white" alt="PyTorch 2.x">
@@ -234,7 +235,7 @@ python scripts/evaluate_v2.py --checkpoint checkpoints/goog_1hz_legal_seed0/best
 
 ## 📚 Documentation
 
-- Paper: *LegalLOB: Generating Structurally Valid Level-2 Limit Order Book Trajectories with Diffusion Models*, ICAIF '26, DOI [10.1145/3858063.3858881](https://doi.org/10.1145/3858063.3858881) (active once the proceedings are published).
+- Paper: *LegalLOB: Generating Structurally Valid Level-2 Limit Order Book Trajectories with Diffusion Models*, ICAIF '26, [PDF](paper/LegalLOB_ICAIF2026.pdf) (camera-ready), DOI [10.1145/3858063.3858881](https://doi.org/10.1145/3858063.3858881) (active once the proceedings are published).
 - [Reproduction guide](REPRODUCE.md): the four settings, the commands behind every table and figure, and where their outputs are written.
 - [`data/README.md`](data/README.md): layout of the processed datasets.
 
